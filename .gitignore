@@ -1,0 +1,16 @@
+Release
+Debug+Asserts
+Thumbs.db
+*.o
+*.aux
+*.bbl
+*.blg
+*.log
+*.dvi
+*.out
+*.synctex.gz
+*.simout
+*.ll
+*.bc
+*.native
+Driver_*
