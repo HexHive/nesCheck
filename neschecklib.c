@@ -14,13 +14,12 @@ struct metadata_table_entry {
 long metadatatablecount = 0;
 struct metadata_table_entry** metadatatable = NULL;
 
+// TODO: replace with the other BST efficient implementation.
 struct metadata_table_entry* findMetadataTableEntry(long p) {
     struct metadata_table_entry* entry = NULL;
     int i;
-
-    // printf("Lookup for %p\n", p);
+    
     for (i = 0; i < metadatatablecount; i++) {
-        // printf("\t%p == %p ?\n", (void*)(metadatatable[i]->ptr), (void*)p);
         if (metadatatable[i]->ptr == p) {
             entry = metadatatable[i];
             break;
@@ -31,10 +30,8 @@ struct metadata_table_entry* findMetadataTableEntry(long p) {
 void setMetadataTableEntry(long p, long size, long addr) {
     struct metadata_table_entry* entry = findMetadataTableEntry(p);
     if (entry == NULL) { // not found, create it
-        // printf("\tNot found %p\n", (void*)p);
 #ifdef IS_DEBUGGING
-            // printf("[%p] Creating entry for %p, size = %ld\n", (void*)addr, (void*)p, size);
-            printf("[%p,%p,%ld]\n", (void*)addr, (void*)p, size);
+        printf("[%p] Creating entry for %p, size = %ld\n", (void*)addr, (void*)p, size);
 #endif
         entry = malloc(sizeof(struct metadata_table_entry));
         entry->ptr = p;
@@ -49,10 +46,14 @@ void setMetadataTableEntry(long p, long size, long addr) {
 long lookupMetadataTableEntry(long p) {
     struct metadata_table_entry* entry = findMetadataTableEntry(p);
     if (entry == NULL) {
-        // printf("\tNot found %p\n", (void*)p);
+#ifdef IS_DEBUGGING
+        printf("\tNot found %p\n", (void*)p);  
+#endif
         return 0;
     } else {
-        // printf("\tFound %p, size = %ld\n", (void*)p, entry->size);
+#ifdef IS_DEBUGGING
+        printf("\tFound %p, size = %ld\n", (void*)p, entry->size);  
+#endif
         return entry->size;
     }
 }
@@ -66,7 +67,4 @@ void printCheck(/*long l, long r*/) {
     // if (l < r) printf("%ld <= %ld ?\n", r, l);
     printf("?");
 #endif
-}
-void printFaultInjectionExecuted(long l) {
-    printf("Executing injected fault at line %ld.\n", l);
 }
